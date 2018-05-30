@@ -1,5 +1,7 @@
 package com.example.blink22.criminalintent;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -7,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +28,7 @@ public class CrimeListFragment extends Fragment{
 
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private int mClickedCrimePosition;
 
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
@@ -40,8 +44,14 @@ public class CrimeListFragment extends Fragment{
     private void updateUI(){
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
-        mAdapter = new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(mAdapter);
+        if (mAdapter == null){
+            mAdapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        }else{
+            //mAdapter.notifyDataSetChanged();
+            Log.i("Click", "  :::"+mClickedCrimePosition);
+            mAdapter.notifyItemChanged(mClickedCrimePosition);
+        }
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -60,16 +70,17 @@ public class CrimeListFragment extends Fragment{
         public void bindCrime(Crime crime){
             mCrime = crime;
             mTitleTextView.setText(crime.getTitle());
-            mDateTextView.setText(crime.getDate().toString());
+            mDateTextView.setText(DateFormat.format("EEEE, MMMM dd, yyyy",mCrime.getDate()));
             mSolvedCheckBox.setChecked(crime.isSolved());
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(),
-                    mCrime.getTitle()+"Clicked!",
-                    Toast.LENGTH_SHORT)
-                    .show();
+            mClickedCrimePosition = this.getLayoutPosition();
+         //   mClickedCrimePosition = getAdapterPosition();
+            Log.i("Click", ""+mClickedCrimePosition);
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
         }
     }
 
@@ -101,4 +112,9 @@ public class CrimeListFragment extends Fragment{
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
 }
