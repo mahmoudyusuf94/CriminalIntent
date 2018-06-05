@@ -10,6 +10,9 @@ import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,9 +53,9 @@ public class CrimeFragment extends Fragment{
     public void onCreate (Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -135,6 +138,7 @@ public class CrimeFragment extends Fragment{
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
     private void updateDate() {
         mDateButton.setText(formatDate(mCrime.getDate()));
     }
@@ -149,5 +153,24 @@ public class CrimeFragment extends Fragment{
 
     private CharSequence formatTime(Date date){
         return DateFormat.format("HH : mm", date);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crime, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_item_delete_crime:
+                CrimeLab crimeLab = CrimeLab.get(getActivity());
+                crimeLab.deleteCrime(mCrime.getId());
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
