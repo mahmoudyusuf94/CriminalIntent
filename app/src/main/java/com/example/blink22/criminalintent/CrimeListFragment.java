@@ -65,13 +65,6 @@ public class CrimeListFragment extends Fragment{
         return view;
     }
 
-    private void addCrime() {
-        Crime crime = new Crime();
-        CrimeLab crimeLab = CrimeLab.get(getActivity());
-        crimeLab.addCrime(crime);
-        Intent intent = CrimePagerActivity.newIntent(getActivity(),crime.getId());
-        startActivity(intent);
-    }
 
     private void updateUI(){
         CrimeLab crimeLab = CrimeLab.get(getActivity());
@@ -87,6 +80,7 @@ public class CrimeListFragment extends Fragment{
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         }else{
+            mAdapter.setCrimes(crimes);
             mAdapter.notifyDataSetChanged();
 //            mAdapter.notifyItemChanged(mClickedCrimePosition);  //causes problems after adding delete crime button
         }
@@ -149,6 +143,10 @@ public class CrimeListFragment extends Fragment{
         @Override
         public int getItemCount() {
             return mCrimes.size();
+        }
+
+        public void setCrimes(List<Crime> crimes){
+            mCrimes = crimes;
         }
     }
 
@@ -213,4 +211,13 @@ public class CrimeListFragment extends Fragment{
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
     }
+
+    private void addCrime() {
+        Crime crime = new Crime();
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        crimeLab.addCrime(crime);
+        Intent intent = CrimePagerActivity.newIntent(getActivity(),crime.getId());
+        startActivity(intent);
+    }
+
 }
