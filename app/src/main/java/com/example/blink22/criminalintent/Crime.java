@@ -10,14 +10,34 @@ public class Crime {
     private UUID mId;
     private String mTitle;
     private Date mDate;
+    private String mSuspect;
     private boolean mSolved;
+
+    public String getPhone() {
+        return mPhone;
+    }
+
+    public void setPhone(String phone) {
+        this.mPhone = phone;
+    }
+
+    private String mPhone;
 
     public Crime(){
         this(UUID.randomUUID());
     }
+
     public Crime (UUID id){
         mId = id;
         mDate = new Date();
+    }
+
+    public String getSuspect() {
+        return mSuspect;
+    }
+
+    public void setSuspect(String suspect) {
+        this.mSuspect = suspect;
     }
 
     public String getTitle() {

@@ -85,8 +85,6 @@ public class CrimeListFragment extends Fragment{
 //            mAdapter.notifyItemChanged(mClickedCrimePosition);  //causes problems after adding delete crime button
         }
 
-
-
         updateSubtitle();
     }
 

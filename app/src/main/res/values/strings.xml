@@ -13,6 +13,22 @@
     <string name="delete_crime">Delete Crime!</string>
     <string name="empty_crime_list">Hooray! Seems like there is no crimes here.</string>
     <string name="new_crime_button">Add Crime</string>
+    <string name="crime_suspect_text">Choose Suspect</string>
+    <string name="crime_report_text">Send Crime Report</string>
+
+    <string name="crime_report">%1$s!
+        The Crime was discovered on %2$s. %3$s and %4$s
+    </string>
+    <string name="crime_report_solved">The Case is solved</string>
+    <string name="crime_report_unsolved">The Case is not solved</string>
+    <string name="crime_report_no_suspect">there is no suspect.</string>
+    <string name="crime_report_suspect">the suspect is %s.</string>
+    <string name="crime_report_subject">CriminalIntent Crime Report</string>
+    <string name="send_report">Send crime report via</string>
+    <string name="call_suspect_text">Call Suspect</string>
+    <string name="permissions_required">Contacts and Calls permissions are required for the application to work properly.</string>
+    <string name="no_suspect_phone">There\'s no phone number for the suspect.</string>
+
     <plurals name="subtitle_plural">
         <item quantity="one">%1$s crime</item>
         <item quantity="other">%1$s crimes</item>
